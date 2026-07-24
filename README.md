@@ -299,47 +299,6 @@ configs/man5_sampling.yaml
 
 This allows the conformer library to approximate experimentally observed carbohydrate conformations while avoiding computationally expensive Rosetta optimization.
 
----
-
-# Troubleshooting
-
-## `ModuleNotFoundError: No module named 'fast_glycan_masking'`
-
-Run commands from the repository root and set:
-
-```bash
-export PYTHONPATH="$PWD/src:${PYTHONPATH:-}"
-```
-
-## `ModuleNotFoundError: No module named 'rotamer_library_generator'`
-
-Confirm that the file is located at:
-
-```text
-src/fast_glycan_masking/rotamer_library_generator.py
-```
-
-and that `glycan_rotamer_generator.py` uses:
-
-```python
-from .rotamer_library_generator import ...
-```
-
-Run the generator as a package module:
-
-```bash
-python -m fast_glycan_masking.glycan_rotamer_generator --help
-```
-
-Do not run:
-
-```bash
-python src/fast_glycan_masking/glycan_rotamer_generator.py
-```
-
-## `unrecognized arguments: --n-conformers`
-
-Replace `glycan_rotamer_generator.py` with the updated version in this repository. The current interface uses `--n-conformers`; the former `--n-models` spelling is retained only as a backward-compatible hidden alias.
 
 ---
 
