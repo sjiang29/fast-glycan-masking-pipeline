@@ -1,4 +1,4 @@
-# Fast Glycan Masking
+# Fast Glycan MAN5 Masking
 
 A fast conformer-library approach for generating ensembles of **Man5-glycosylated antigen structures** for antibody docking.
 
@@ -68,7 +68,7 @@ The conformer library is generated once and reused for all proteins.
 # Repository structure
 
 ```
-fast-glycan-masking/
+fast-glycan_man5-masking/
 │
 ├── README.md
 ├── LICENSE
