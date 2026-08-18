@@ -118,8 +118,8 @@ Run the modules from the repository root with `python -m`; do not execute files 
 Clone the repository
 
 ```bash
-git clone https://github.com/sjiang29/fast-glycan-masking.git
-cd fast-glycan-masking
+git clone https://github.com/sjiang29/fast-glycan-man5-masking.git
+cd fast-glycan-man5-masking
 ```
 
 Install dependencies
