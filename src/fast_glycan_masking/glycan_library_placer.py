@@ -378,6 +378,25 @@ def run(args: argparse.Namespace) -> int:
             placed_payload["library_attachment_template_angle"] = np.asarray(
                 lib["attachment_template_angle"]
             )
+
+    # Multi-reference libraries can retain provenance for every conformer.
+    # Preserve the source model/path selected at each target site so that a
+    # successful placement can be traced back to the Rosetta reference that
+    # contributed the glycan geometry.
+    selected_source_model_ids = None
+    selected_source_pdbs = None
+    if "source_model_ids" in lib:
+        source_model_ids = np.asarray(lib["source_model_ids"])
+        selected_source_model_ids = source_model_ids[selected_matrix]
+        placed_payload["selected_source_model_ids"] = selected_source_model_ids
+    if "source_pdbs" in lib:
+        source_pdbs = np.asarray(lib["source_pdbs"])
+        selected_source_pdbs = source_pdbs[selected_matrix]
+        placed_payload["selected_source_pdbs"] = selected_source_pdbs
+    if "source_reference_index" in lib:
+        source_reference_index = np.asarray(lib["source_reference_index"], int)
+        placed_payload["selected_source_reference_index"] = source_reference_index[selected_matrix]
+
     np.savez(out_dir / f"{args.prefix}_placed.npz", **placed_payload)
 
     manifest = {
@@ -401,6 +420,13 @@ def run(args: argparse.Namespace) -> int:
             manifest["library_attachment_template_angle_deg"] = float(
                 np.asarray(lib["attachment_template_angle"]).reshape(())
             )
+    if selected_source_model_ids is not None:
+        manifest["selected_source_model_ids"] = selected_source_model_ids.tolist()
+    if selected_source_pdbs is not None:
+        manifest["selected_source_pdbs"] = selected_source_pdbs.tolist()
+    if "library_kind" in lib:
+        manifest["library_kind"] = str(np.asarray(lib["library_kind"]).reshape(()))
+
     (out_dir / f"{args.prefix}_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print(f"[done] wrote {len(accepted)} multi-glycosylated models to {out_dir}")
     return 0
