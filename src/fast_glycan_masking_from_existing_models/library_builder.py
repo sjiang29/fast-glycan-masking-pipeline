@@ -113,7 +113,10 @@ def build_library(input_dir, out_prefix, reu_delta=0.0, include_wt_glycans=False
     residue_numbers=np.array([a.resid for a in canonical_atoms],int)
     residue_names=np.array([a.resname for a in canonical_atoms])
     elements=np.array([a.element for a in canonical_atoms])
-
+    # Atom-level chain identifiers.
+    # The downstream glycan_library_placer expects this field.
+    # "G" denotes the standalone glycan chain in the conformer library.
+    chains = np.full(len(atom_names), "G", dtype="<U1")
     # String provenance arrays are stored explicitly for easy downstream use.
     np.savez(
         str(out)+".npz",
@@ -121,6 +124,7 @@ def build_library(input_dir, out_prefix, reu_delta=0.0, include_wt_glycans=False
         atom_names=atom_names,
         residue_numbers=residue_numbers,
         residue_names=residue_names,
+        chains=chains,
         elements=elements,
         attachment_frame=canonical_frame,
         linkage_edges=np.array(expected_edges,dtype=str),
