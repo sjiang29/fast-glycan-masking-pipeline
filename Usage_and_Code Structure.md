@@ -183,10 +183,10 @@ Add the source directory to the Python path:
 export PYTHONPATH="$PWD/src:${PYTHONPATH:-}"
 ```
 
-The package uses relative imports, so run modules from the repository root using:
+The package uses relative imports, so build modules from the repository root using:
 
 ```bash
-python -m fast_glycan_masking.<module>
+python -m pip install -e .
 ```
 
 Do not run files inside `src/fast_glycan_masking/` directly.
